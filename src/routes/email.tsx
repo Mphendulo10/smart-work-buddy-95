@@ -37,8 +37,12 @@ function EmailPage() {
 
   const run = useServerFn(generateEmail);
   const mutation = useMutation({
-    mutationFn: (input: { brief: string; tone: string; recipient?: string; sender?: string }) =>
-      run({ data: input as never }),
+    mutationFn: (input: {
+      brief: string;
+      tone: string;
+      recipient?: string | undefined;
+      sender?: string | undefined;
+    }) => run({ data: input as never }),
     onSuccess: () => setSubjectIndex(0),
     onError: (error: Error) => toast.error(error.message || "Could not generate the email."),
   });
