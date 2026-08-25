@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EmailRouteImport } from './routes/email'
 import { Route as NotesRouteImport } from './routes/notes'
+import { Route as TasksRouteImport } from './routes/tasks'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const NotesRoute = NotesRouteImport.update({
   path: '/notes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TasksRoute = TasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/email': typeof EmailRoute
   '/notes': typeof NotesRoute
+  '/tasks': typeof TasksRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/email': typeof EmailRoute
   '/notes': typeof NotesRoute
+  '/tasks': typeof TasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/email': typeof EmailRoute
   '/notes': typeof NotesRoute
+  '/tasks': typeof TasksRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/email' | '/notes'
+  fullPaths: '/' | '/email' | '/notes' | '/tasks'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/email' | '/notes'
-  id: '__root__' | '/' | '/email' | '/notes'
+  to: '/' | '/email' | '/notes' | '/tasks'
+  id: '__root__' | '/' | '/email' | '/notes' | '/tasks'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EmailRoute: typeof EmailRoute
   NotesRoute: typeof NotesRoute
+  TasksRoute: typeof TasksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tasks': {
+      id: '/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof TasksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EmailRoute: EmailRoute,
   NotesRoute: NotesRoute,
+  TasksRoute: TasksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
